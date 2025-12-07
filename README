@@ -1,0 +1,50 @@
+StudyRoom Finder
+
+StudyRoom Finder is a Java console application that helps students quickly find open study rooms on campus. The program shows room availability, checks upcoming openings, and allows users to check in and out of rooms. This project also demonstrates key Java concepts required for the assignment.
+
+Features
+- View all study rooms
+- Check which rooms are available now
+- See rooms becoming available soon
+- Check in and check out of rooms
+- Random study tip generator
+- UML diagram included
+
+ Project Structure
+src/
+ ├── BaseRoom.java
+ ├── StudyRoom.java
+ ├── StudyRoomFinder.java
+ ├── StudyRoomManager.java
+ └── TimeSlot.java
+
+ UML Diagram
+A full color UML diagram
+
+ How to Run
+1. Open the project with the Repository Link
+2. Make sure all Java files are inside the `src` folder
+3. Set `StudyRoomFinder` as the main class
+4. Run the program
+
+Java Concepts Demonstrated
+- Scanner class
+- Variables and constants
+- Switch statement
+- Conditional operator
+- String and Math methods
+- Loops
+- Methods with arguments and return values
+- Method overloading
+- Arrays
+- Multiple classes
+- Constructors
+- Inheritance
+- Abstraction
+- Encapsulation
+- super and this keywords
+- Static fields and methods
+- Java library classes (Random, Date-Time)
+- println and printf
+
+
