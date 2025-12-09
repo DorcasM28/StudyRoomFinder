@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"BaseRoom"},{"p":"<Unnamed>","l":"StudyRoom"},{"p":"<Unnamed>","l":"StudyRoomFinder"},{"p":"<Unnamed>","l":"StudyRoomManager"},{"p":"<Unnamed>","l":"TimeSlot"}];updateSearchResults();
