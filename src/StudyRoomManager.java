@@ -3,23 +3,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/**
+ * Handles creation, lookup, and management of StudyRoom objects.
+ * Provides methods for checking availability, checking in/out,
+ * and generating random study tips.
+ */
 public class StudyRoomManager {
 
+    /** List of all study rooms. */
     private final List<StudyRoom> rooms = new ArrayList<>();
 
-
+    /** Array of study tips (demonstrates array requirement). */
     private final String[] studyTips = {
-            "Arrive ten minutes early to settle in.",
-            "Turn off notifications to stay focused.",
-            "Use active recall instead of rereading notes.",
-            "Take a short break every 25 to 30 minutes."
+            "Arrive a few minutes early to settle in.",
+            "Turn off notifications for better focus.",
+            "Use active recall instead of rereading.",
+            "Take breaks every 25–30 minutes."
     };
 
-
+    /** Used to choose random study tips. */
     private final Random random = new Random();
 
-
+    /**
+     * Creates sample study rooms and populates their schedules.
+     */
     public void loadSampleData() {
         StudyRoom r1 = new StudyRoom(1, "Pod 101", "Library", 4);
         StudyRoom r2 = new StudyRoom(2, "Room 202", "Engineering", 6);
@@ -38,6 +45,9 @@ public class StudyRoomManager {
         rooms.add(r3);
     }
 
+    /**
+     * Displays all rooms in the system.
+     */
     public void listAllRooms() {
         System.out.println("\nAll rooms:");
         for (StudyRoom room : rooms) {
@@ -46,38 +56,49 @@ public class StudyRoomManager {
         System.out.println();
     }
 
+    /**
+     * Displays all rooms available at the current time.
+     */
     public void listAvailableNow() {
         LocalTime now = LocalTime.now();
-        System.out.println("\nRooms available now at " + now.withSecond(0).withNano(0) + ":");
+        System.out.println("\nRooms available now: ");
         boolean found = false;
+
         for (StudyRoom room : rooms) {
             if (room.isAvailableAt(now)) {
                 System.out.println(room.describe());
                 found = true;
             }
         }
+
         if (!found) {
             System.out.println("No rooms are free right now.");
         }
         System.out.println();
     }
 
-
+    /**
+     * Lists rooms available within the next 30 minutes.
+     * Demonstrates method overloading.
+     */
     public void listAvailableSoon() {
         listAvailableSoon(30);
     }
 
+    /**
+     * Lists rooms available within a given number of minutes.
+     *
+     * @param minutesAhead time window to check
+     */
     public void listAvailableSoon(int minutesAhead) {
-
-        int safeMinutes = Math.max(0, minutesAhead);
+        int safeMinutes = Math.max(0, minutesAhead); /** Math method */
 
         LocalTime now = LocalTime.now();
         LocalTime limit = now.plusMinutes(safeMinutes);
 
-        System.out.println("\nRooms available between " + now.withSecond(0).withNano(0)
-                + " and " + limit.withSecond(0).withNano(0) + ":");
-
+        System.out.println("\nRooms free soon:");
         boolean found = false;
+
         for (StudyRoom room : rooms) {
             if (room.isAvailableBetween(now, limit)) {
                 System.out.println(room.describeWithNextFreeTime(now));
@@ -86,30 +107,40 @@ public class StudyRoomManager {
         }
 
         if (!found) {
-            System.out.println("No rooms available in this window.");
+            System.out.println("No rooms available soon.");
         }
         System.out.println();
     }
 
+    /**
+     * Checks a user into a room if available.
+     *
+     * @param roomId ID of room to occupy
+     */
     public void checkIn(int roomId) {
         StudyRoom room = findRoomById(roomId);
         if (room == null) {
-            System.out.println("Room id " + roomId + " not found.\n");
+            System.out.println("Room not found.\n");
             return;
         }
         LocalTime now = LocalTime.now();
         if (!room.isAvailableAt(now)) {
-            System.out.println("Room is reserved or already occupied.\n");
+            System.out.println("Room is unavailable.\n");
             return;
         }
         room.setOccupied(true);
-        System.out.println("Checked in to " + room.basicInfo() + ".\n");
+        System.out.println("Checked in successfully.\n");
     }
 
+    /**
+     * Checks a user out of a room.
+     *
+     * @param roomId room ID to free
+     */
     public void checkOut(int roomId) {
         StudyRoom room = findRoomById(roomId);
         if (room == null) {
-            System.out.println("Room id " + roomId + " not found.\n");
+            System.out.println("Room not found.\n");
             return;
         }
         if (!room.isOccupied()) {
@@ -117,24 +148,29 @@ public class StudyRoomManager {
             return;
         }
         room.setOccupied(false);
-        System.out.println("Checked out of " + room.basicInfo() + ".\n");
+        System.out.println("Checked out successfully.\n");
     }
 
-
+    /**
+     * Finds a StudyRoom by its ID.
+     *
+     * @param id room identifier
+     * @return StudyRoom object or null if not found
+     */
     private StudyRoom findRoomById(int id) {
         for (StudyRoom room : rooms) {
-            if (room.getId() == id && room.getName().length() > 0) {
+            if (room.getId() == id) {
                 return room;
             }
         }
         return null;
     }
 
-
+    /**
+     * Prints a randomly selected study tip.
+     */
     public void suggestStudyTip() {
         int index = random.nextInt(studyTips.length);
-        String tip = studyTips[index];
-        System.out.println("\nStudy tip: " + tip + "\n");
+        System.out.println("\nStudy tip: " + studyTips[index] + "\n");
     }
 }
-

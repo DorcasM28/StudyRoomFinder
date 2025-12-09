@@ -1,16 +1,23 @@
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-
+/**
+ * Main program class for the StudyRoom Finder application.
+ * Handles user input, interactive menu display,
+ * and coordinates interaction with StudyRoomManager.
+ */
 public class StudyRoomFinder {
 
+    /** Default number of minutes to check ahead for availability. */
     private static final int DEFAULT_MINUTES_AHEAD = 30;
 
-
+    /**
+     * Entry point for the application. Displays menu and runs event loop.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-
         StudyRoomManager manager = new StudyRoomManager();
         manager.loadSampleData();
 
@@ -21,11 +28,7 @@ public class StudyRoomFinder {
             printMenu();
 
             System.out.print("Enter choice: ");
-            String input = scanner.nextLine();
-
-
-            String choice = input.trim().toLowerCase();
-
+            String choice = scanner.nextLine().trim().toLowerCase();
 
             switch (choice) {
                 case "1":
@@ -40,14 +43,12 @@ public class StudyRoomFinder {
                     manager.listAvailableSoon(minutes);
                     break;
                 case "4":
-                    System.out.print("Enter room id to check in: ");
-                    int checkInId = readInt(scanner, -1);
-                    manager.checkIn(checkInId);
+                    System.out.print("Enter room ID to check in: ");
+                    manager.checkIn(readInt(scanner, -1));
                     break;
                 case "5":
-                    System.out.print("Enter room id to check out: ");
-                    int checkOutId = readInt(scanner, -1);
-                    manager.checkOut(checkOutId);
+                    System.out.print("Enter room ID to check out: ");
+                    manager.checkOut(readInt(scanner, -1));
                     break;
                 case "6":
                     manager.suggestStudyTip();
@@ -56,42 +57,49 @@ public class StudyRoomFinder {
                     running = false;
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.\n");
+                    System.out.println("Invalid choice.\n");
             }
         }
 
-        System.out.println("Goodbye. Happy studying!");
+        System.out.println("Goodbye!");
         scanner.close();
     }
 
-
+    /**
+     * Prints the program header showing the current date and total rooms.
+     */
     private static void printHeader() {
         LocalDateTime now = LocalDateTime.now();
         System.out.println("========================================");
-        System.out.printf("  StudyRoom Finder - %s%n", now);
-        System.out.println("  Total rooms created: " + StudyRoom.getTotalRooms());
+        System.out.printf("StudyRoom Finder - %s%n", now);
         System.out.println("========================================");
     }
 
-
+    /**
+     * Prints the user menu.
+     */
     private static void printMenu() {
         System.out.println("1) List all rooms");
-        System.out.println("2) Show rooms available now");
-        System.out.println("3) Show rooms available soon");
+        System.out.println("2) View available rooms now");
+        System.out.println("3) View rooms available soon");
         System.out.println("4) Check in to a room");
         System.out.println("5) Check out of a room");
-        System.out.println("6) Suggest a random study tip");
+        System.out.println("6) Random study tip");
         System.out.println("0) Exit");
     }
 
-
-    private static int readInt(Scanner scanner, int defaultValue) {
+    /**
+     * Reads an integer safely from the user.
+     *
+     * @param scanner scanner instance
+     * @param fallback fallback value if input invalid
+     * @return parsed integer or fallback
+     */
+    private static int readInt(Scanner scanner, int fallback) {
         try {
-            String text = scanner.nextLine().trim();
-            return Integer.parseInt(text);
+            return Integer.parseInt(scanner.nextLine().trim());
         } catch (NumberFormatException e) {
-            System.out.println("Invalid number. Using default " + defaultValue);
-            return defaultValue;
+            return fallback;
         }
     }
 }
